@@ -1,0 +1,35 @@
+parameters:
+  - name: organizationUrl
+    type: string
+    default: ''
+    displayName: 'Azure DevOps Organization URL'
+  - name: projectName
+    type: string
+    default: ''
+    displayName: 'Azure DevOps Project Name'
+  - name: repositoryName
+    type: string
+    default: ''
+    displayName: 'Azure DevOps Repository Name'
+
+stages:
+  - stage: ValidateAndSetPolicies
+    displayName: 'Validate and Set Repository Policies'
+    jobs:
+      - job: CheckAndSetPolicies
+        displayName: 'Check and Set Policies'
+        steps:
+          - checkout: self
+              
+          # Run the PowerShell script with variables
+          - task: PowerShell@2
+            displayName: 'Run Repository Policies Script'
+            inputs:
+              targetType: 'filePath'
+              filePath: 'SetRepoPolicies.ps1'
+              arguments: >-
+                -ServiceConnectionName "${{ parameters.serviceConnectionName }}"
+                -OrganizationUrl "${{ parameters.organizationUrl }}"
+                -ProjectName "${{ parameters.projectName }}"
+                -RepositoryName "${{ parameters.repositoryName }}"
+                -PersonalAccessToken "$(AzureDevOpsPAT)"
