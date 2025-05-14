@@ -28,7 +28,6 @@ stages:
               targetType: 'filePath'
               filePath: 'SetRepoPolicies.ps1'
               arguments: >-
-                -ServiceConnectionName "${{ parameters.serviceConnectionName }}"
                 -OrganizationUrl "${{ parameters.organizationUrl }}"
                 -ProjectName "${{ parameters.projectName }}"
                 -RepositoryName "${{ parameters.repositoryName }}"
